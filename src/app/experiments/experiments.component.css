@@ -1,0 +1,154 @@
+.experiments-wrap{box-sizing: border-box;}
+.experiments{margin: 0; padding: 0; list-style: none;}
+.top-row-wrap{margin: 30px 0 20px; display: flex; border-bottom: 1px solid rgb(223, 227, 232);}
+.page-title-wrap{width: 250px;}
+.page-title-wrap h2{margin: 0; padding: 0;}
+.snapshot-view-wrap{width: calc(100% - 500px);}
+.top-action-column{width: 250px; display: flex; align-items: baseline; justify-content: flex-end;}
+.element-chip{display: inline-block; border: 1px solid #999999; padding:4px 8px; border-radius: 6px; margin-right: 5px; font-size: 13px;}
+::ng-deep .mat-dialog-container{border-radius: 0 !important; padding:0 !important;}
+::ng-deep .mat-menu-panel{width:200px !important; border-radius: 8px !important;}
+::ng-deep .mat-menu-panel button.mat-menu-item{height: 38px !important;line-height: 38px !important;font-size: 13px !important; padding: 0 20px !important;}
+.snapshot-view{list-style: none;height: 45px; margin: 0; padding: 0; display: flex; flex-direction: row; justify-content: center;}
+.snapshot-view li:hover,
+.snapshot-view li.active{color: #414141;}
+.snapshot-view li.active::after{
+    content: "";
+    display: inline-block;
+    height: 0px;
+    margin-left: 0.8rem;
+    position: absolute;
+    transform: rotate(180deg);
+    transform-origin: 50% 50%;
+    width: 0px;
+    bottom: 0px;
+    left: calc(48% - 1.2rem);
+    border-style: solid;
+    border-width: 6px 7px 0px;
+    border-color: rgb(204, 0, 0) transparent transparent;
+    
+}
+.snapshot-view li{
+    position: relative;
+    box-sizing: border-box;
+    margin: 0 0 0 30px;  
+    font-size: 14px;    
+    cursor: pointer;
+    color: #bababa;
+    padding-top: 5px;
+}
+
+.snapshot-view li:first-child{
+    margin-left: 0;
+}
+.snapshot-view li label{
+    cursor: pointer;
+}   
+.snapshot-view li span{
+    cursor: pointer;
+    display: inline-block;
+    margin: 3px;
+}
+.exp-title{
+    font-weight: 700;
+    text-decoration: underline;
+}
+.exp-title:hover{
+    color: #414141 !important;
+}
+
+.filter-wrap{display: flex; margin-bottom: 20px;}
+.filter-wrap .calendar{margin-left: 20px;}
+
+.summary-a{
+    margin: 0;
+    padding:0;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    width: 100%;
+    list-style: none;
+}
+.summary-a .title h2{margin: 0; padding: 0;}
+.summary-a > li:first-child{
+    width: 70%;
+}
+.summary-a > li{
+    width: 30%;
+}
+.summary-a > li.action{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+.summary-a > li.action > a{
+    padding:6px 10px;
+    border: 1px solid #3289FF;
+    cursor: pointer;
+    margin-left: 12px;
+    color: #3289FF;
+    border-radius: 3px;
+    font-size: 12px;
+}
+.summary-b{
+    margin: 15px 0 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    list-style: none;
+}
+.summary-b > li{
+    width: 25%;
+    font-size: 14px;
+}
+.summary-b > li > label{
+    display: block;
+    font-weight: 700;
+    padding-bottom: 5px;
+    font-size: 12px;
+}
+::ng-deep .experiment-history .mat-table{
+    background-color: #F8F8F8;
+    box-shadow: 0 0 0 !important;
+}
+::ng-deep .experiment-history .mat-footer-row, 
+::ng-deep .experiment-history .mat-header-row, 
+::ng-deep .experiment-history .mat-row, 
+::ng-deep .experiment-history td.mat-cell, 
+::ng-deep .experiment-history td.mat-footer-cell, 
+::ng-deep .experiment-history th.mat-header-cell{
+    border-bottom-color: #ffffff;
+    border-bottom-width: 2px;
+}
+.exepriment-history-actions{ text-align: right;}
+.exepriment-history-actions a{font-size: 12px;;}
+.calendar{position: relative;}
+::ng-deep .md-drppicker.drops-down-auto.shown.double.show-ranges{
+    width: 660px;
+}
+::ng-deep .md-drppicker.drops-down-auto.show-ranges{
+    left: 0 !important;
+    margin-top: 0px;
+}
+
+
+
+#topBar.sticky .top-row-wrap{
+    margin: 15px 0 20px !important;
+}
+.sticky {
+    position: fixed;
+    top: 0;
+    left: 35px;
+    width: calc(100% - 70px);
+    background-color: #F2F4F6 !important;
+    z-index: 2;
+    margin-top: 0 !important;
+}
+
+::ng-deep tr.mat-footer-row, tr.mat-row{
+    height: 78px !important;
+}

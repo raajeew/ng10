@@ -1,0 +1,23 @@
+<div class="dialog-wrap">
+    <div class="dialog-box" [ngStyle]="{'width': dialogWidth, 'left': dialogLeftPadding}">
+        <div class="dialog-header">            
+            <h3>{{data.title}}</h3>
+            <span><a (click)="closeMe()" class="material-icons close">cancel</a></span>
+        </div>
+        <div class="dialog-message">
+            <p [innerHtml]="data.message"></p>
+        </div>
+        <div class="dialog-captcha">
+            <p>
+                Type '{{data.condition}}' to confirm
+            </p>
+            <p class="inputText">
+                <input [ngClass]="{'error' : errorMessage }" type="text" placeholder="{{data.condition}}" [(ngModel)]="conditionValue">
+            </p>
+        </div>
+        <div class="dialog-action">
+            <button (click)="closeMe()">Cancel</button>
+            <button (click)="returnData()">{{data.button}}</button>
+        </div>
+    </div>
+</div>

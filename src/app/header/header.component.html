@@ -1,0 +1,62 @@
+<nav class="navbar navbar-default">
+    <div class="navbar-wrap">
+      <div class="col-left navbar-header">
+        <a class="app-switcher-icon" [matMenuTriggerFor]="appMenu">
+          <svg id="AppSwitcher_icon" data-name="AppSwitcher icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">            
+            <rect id="Rectangle_1219" data-name="Rectangle 1219" width="4" height="4" transform="translate(8 8)" fill="#414141"/>
+            <rect id="Rectangle_3040" data-name="Rectangle 3040" width="4" height="4" transform="translate(8 14)" fill="#414141"/>
+            <rect id="Rectangle_3043" data-name="Rectangle 3043" width="4" height="4" transform="translate(8 20)" fill="#414141"/>
+            <rect id="Rectangle_3036" data-name="Rectangle 3036" width="4" height="4" transform="translate(14 8)" fill="#414141"/>
+            <rect id="Rectangle_3039" data-name="Rectangle 3039" width="4" height="4" transform="translate(14 14)" fill="#414141"/>
+            <rect id="Rectangle_3042" data-name="Rectangle 3042" width="4" height="4" transform="translate(14 20)" fill="#414141"/>
+            <rect id="Rectangle_3037" data-name="Rectangle 3037" width="4" height="4" transform="translate(20 8)" fill="#414141"/>
+            <rect id="Rectangle_3038" data-name="Rectangle 3038" width="4" height="4" transform="translate(20 14)" fill="#414141"/>
+            <rect id="Rectangle_3041" data-name="Rectangle 3041" width="4" height="4" transform="translate(20 20)" fill="#414141"/>
+          </svg>          
+        </a>
+        <mat-menu #appMenu="matMenu" class="applicationsMenu">
+          <div class="appMenuWrap">
+            <h6>Apps</h6>
+            <ul>
+              <li>
+                <a class="active">Angular 10</a>
+              </li>
+            </ul>
+          </div>
+        </mat-menu>
+        <a class="navbar-brand"  [routerLink]="['/home']">
+          <strong>
+            ng10
+          </strong>
+          <span>Optimization</span>
+        </a>
+      </div>
+      <div class="col-middle">
+        <ul class="mainMenuWrap">
+          <li class="menuItem" routerLinkActive="active">
+            <a [routerLink]="['/home']">Home</a>
+          </li>
+          <li class="menuItem" routerLinkActive="active">
+            <a [routerLink]="['/experiments']">Experiments</a>
+          </li> 
+        </ul>
+      </div>
+      <div class="col-right">
+        <ul class="notification-summary-wrap">         
+          <li class="usericon" [matMenuTriggerFor]="menu">            
+            <mat-menu #menu="matMenu" class="userMenuOuterWrap">
+              <div class="userMenuWrap">
+                <p>
+                  <a>User name</a>
+                </p>
+                
+                <p>
+                  <a>Logout</a>
+                </p>
+              </div>
+            </mat-menu>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>

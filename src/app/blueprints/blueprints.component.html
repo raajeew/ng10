@@ -1,0 +1,144 @@
+<h2 class="title" style="margin-bottom: 10px;">Test Page</h2>
+
+<div class="filter-wrap" *ngIf="!nodata">
+    <div>
+        <a class="btn-create" (click)="createBlueprint()">
+            <em>&nbsp;</em>
+            <span>Create</span>
+        </a>
+    </div>
+    <div>
+        <span class="search-field">
+            <span matPrefix>
+                <span style="font-size: 21px !important;" class="material-icons"> search </span>
+            </span>
+            <input type="text" matInput placeholder="Search Blueprint">
+        </span>
+    </div>
+</div>
+<mat-sidenav-container style="position: static;">
+    <mat-sidenav-content>
+        <!-- Data grid starts here -->
+        <div class="blueprints-wrap" *ngIf="!nodata">
+            <div class="table-wrap">
+                <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
+                    <ng-container matColumnDef="cursor">
+                        <th mat-header-cell *matHeaderCellDef width="30"></th>
+                        <td mat-cell *matCellDef="let element">
+                            <span *ngIf="expandedElement !== element" class="material-icons">
+                                keyboard_arrow_right
+                            </span>
+                            <span *ngIf="expandedElement === element" class="material-icons">
+                                keyboard_arrow_down
+                            </span>
+                        </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef> Blueprint Name </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            <a (click)="showBlueprintDetails(element, $event)" class="link">{{element.name}}</a> 
+                        </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="appName">
+                        <th mat-header-cell *matHeaderCellDef> App Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.appName}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="metrics">
+                        <th mat-header-cell *matHeaderCellDef width="300"> Metrics </th>
+                        <td mat-cell *matCellDef="let element">
+                            <span class="element-chip" *ngFor="let metric of element.metrics">{{metric}}</span>
+                        </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="creationDate">
+                        <th mat-header-cell *matHeaderCellDef width="200"> Date Created On </th>
+                        <td mat-cell *matCellDef="let element"> {{element.creationDate | date:'MMM d, y'}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef width="50"> Actions </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div style="text-align: right;">
+                                <a [matMenuTriggerFor]="menu" style="cursor: pointer;" (click)="stopEventPropagation($event)">
+                                    <i class="material-icons" style="font-size: 16px;">more_vert</i>
+                                </a>                    
+                                <mat-menu #menu="matMenu">
+                                    <button mat-menu-item>Create a Copy</button>
+                                    <button mat-menu-item>Download</button>
+                                    <button mat-menu-item (click)="editBlueprint(element)">Edit Blueprint</button>
+                                    <button mat-menu-item>Delete Blueprint</button>
+                                </mat-menu>
+                            </div>
+                        </td>
+                    </ng-container>
+        
+                    <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+                    <ng-container matColumnDef="expandedDetail">
+                        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+                        <div class="accordion-table-row-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">                    
+                            <div class="accordion-table-row-description">
+                            {{element.description}}
+                            </div>
+                        </div>
+                        </td>
+                    </ng-container>
+        
+                    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+                    <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
+                        class="accordion-table-row-row"
+                        [class.table-expanded-row]="expandedElement === element"
+                        (click)="expandedElement = expandedElement === element ? null : element">
+                    </tr>
+                    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="accordion-table-detail-row"></tr>
+                </table>
+            </div>
+        </div>
+        <!-- Data grid ends here -->
+    </mat-sidenav-content>
+    <mat-sidenav [ngClass]="'default'" #sidenav [mode]="slideMode" position="end" [fixedInViewport]="true"
+        [fixedTopGap]="0" [fixedBottomGap]="0" (closed)="sidenavClosed()" style="width: 60%;">
+        <div class="side-details-wrap">
+            <div class="panel-header">
+                <a class="link" (click)="closePanel()">
+                    <i style="color: #555555;" class="material-icons">clear</i>
+                </a>
+            </div>
+            
+            <div class="selectedItem-details">
+                <h6>{{selectedBlueprint.creationDate | date:'MMM d, y'}}</h6>
+                <h2>{{selectedBlueprint.name}}</h2>
+                <p>{{selectedBlueprint.description}}</p>
+                <div style="margin-top: 50px; text-align: center;">
+                    <p>integration in-progress</p>
+                    <img src="../../assets/icons/ph-nodata.svg" />
+                </div>
+            </div>
+        </div>
+    </mat-sidenav>
+  </mat-sidenav-container>
+
+
+
+
+
+<!-- No data placeholder -->
+<div id="no-data" *ngIf="nodata">
+    <div>
+        <img src="../../assets/icons/ph-nodata.svg" />
+    </div>
+    <div style="padding: 30px 0; width: 60%; margin: auto;">
+        <p>You have not created any Blueprints yet, Start creating Blueprints by defining the parameter, metrics to build experiments</p>
+    </div>
+    <div>
+        <a class="btn-create" style="width: 140px; margin: auto; text-align: center;">
+            <!-- <em>&nbsp;</em> -->
+            <span>Create Blueprint</span>
+        </a>
+    </div>
+</div>
+<!-- No data placeholder ends -->
+
+<mat-spinner diameter='50' *ngIf="showLoading" class="loadingGif"></mat-spinner>

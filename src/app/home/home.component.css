@@ -1,0 +1,4 @@
+.home-wrap{background: #ffffff; border:1px solid #e7e7e7; border-radius: 5px;}
+.home{margin: 0; padding: 0; list-style: none;}
+.home li{margin: 5px 0; padding: 8px 20px; border-top: 1px solid #e7e7e7;}
+.home li:first-child{border-top: none;}

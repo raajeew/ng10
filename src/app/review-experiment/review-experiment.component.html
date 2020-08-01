@@ -1,0 +1,125 @@
+<h2 class="title" style="margin-bottom: 10px;">
+ <span>Review Experiment : </span>
+ <span style="font-weight: bolder;">{{expName}}</span>
+</h2>
+<hr/>
+<div class="review-experiment-wrap">
+    <!-- Snapshot View -->
+    <div class="snapshot-view">
+        <ul>
+            <li>
+                <label>Total Trials</label>
+                <span>{{summary['total_trials']}}</span>
+            </li>
+            <li>
+                <label>Completed Trials</label>
+                <span>{{summary['completed_trials']}}</span>
+            </li>
+            <li>
+                <label>Running Trials</label>
+                <span>{{summary['running_trials']}}</span>
+            </li>
+            <li>
+                <label>Failed Trials</label>
+                <span>{{summary['failed_trials']}}</span>
+            </li>
+            <li>
+                <label>Abandoned Trials</label>
+                <span>{{summary['abandoned_trials']}}</span>
+            </li>
+        </ul>
+    </div>
+    <!-- Snapshot View Ends-->
+    <!-- <p>
+        <code>{{metricInput | json}}</code>
+    </p> -->
+    <div class="chart-wrap">
+        <mat-drawer-container class="chart-container" autosize>
+            <mat-drawer-content>
+                <div class="chart-sidenav-content">
+                    <div id="parallel-cooridnate"></div> 
+                    <a *ngIf="farrow" title="Config" type="button" mat-button (click)="drawer.toggle(); farrow = !farrow" class="filter-wrap material-icons">
+                        {{"keyboard_arrow_left"}}
+                    </a>
+                    <a *ngIf="!farrow" title="Config" type="button" mat-button (click)="drawer.toggle(); farrow = !farrow" class="filter-wrap material-icons">
+                        {{"keyboard_arrow_right"}}
+                    </a>
+                </div>
+            </mat-drawer-content>
+            
+            <mat-drawer #drawer class="chart-sidenav" mode="side" opened="true" position="end" style="width: 15%;">                 
+                <div id="chart-config" class="chart-colb">
+                  <h5>View By</h5>
+                  <ul id="metric-option">
+                      <li *ngFor="let metric of metricInput">
+                          <p>{{metric.key}}</p>
+                          <mat-checkbox [disableRipple]="true" [disabled]="metricInput.length <= 2" (change)="updateChart()" [(ngModel)]="metric.selected">
+                              {{metric.value | titlecase}}
+                          </mat-checkbox>
+                      </li>
+                      <li>
+                          <p>View Best</p>
+                          <mat-slide-toggle (change)="viewBest()" [disableRipple]="true" value="false" [(ngModel)]="viewbestFlag">
+                              <span *ngIf="!viewbestFlag">Off</span>
+                              <span *ngIf="viewbestFlag">On</span>
+                          </mat-slide-toggle>
+                      </li>
+                  </ul>
+              </div>                      
+          </mat-drawer>
+          </mat-drawer-container>
+        <!-- chart view starts -->
+
+        <!-- chart view ends -->
+
+        <!-- Chart details starts -->
+        <div class="chart-details-wrap" *ngIf="showDetails">
+            <a id="closePanel" class="material-icons" (click)="closePanel()">close</a>
+            <ul class="trial-details">                
+                <li class="card metric">
+                  <h5 class="icon-metric">Metric</h5>                  
+                  <ul class="list">
+                    <li *ngFor="let metric of metricInput">
+                        <div *ngIf="metric.selected" class="items">
+                            <h6>{{metric.value | titlecase}}</h6>
+                            <p class="number">
+                                <span>
+                                    {{selectedTrial[metric.value] | number : '1.2-2'}}
+                                    <!-- number : '1.2-2' -->
+                                </span>
+                                <!-- <em>ops/sec</em> -->
+                            </p>
+                            <!-- <p class="trend">
+                                <span class="trend up">42%</span>
+                            </p> -->
+                        </div>
+                    </li>
+                  </ul>   
+                </li>
+
+                <li class="card parameter">
+                    <h5 class="icon-parameter">Parameter</h5>
+                    <ul>
+                        <li *ngFor="let param of selectedTrial.parameters | keyvalue">
+                            <div class="items">
+                                <h6>{{param.key | titlecase}}</h6>
+                                <p class="number">
+                                    {{selectedTrial.parameters[param.key]}}
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="card labels">
+                  <h5 class="icon-label">Labels</h5>
+                  <div class="label-wrap">
+                      
+                  </div>
+                </li>
+            </ul>
+        </div>
+        <!-- Chart details ends -->
+    </div>    
+</div>
+<mat-spinner diameter='50' *ngIf="showLoading" class="loadingGif"></mat-spinner>

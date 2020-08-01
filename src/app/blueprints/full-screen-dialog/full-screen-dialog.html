@@ -1,0 +1,16 @@
+<div class="fs-dialog-wrap">
+    <div class="dialog-header">
+        <h1>{{dialogData.title}}</h1>
+        <div class="actions">
+            <a mat-dialog-close>Close</a>
+        </div>
+    </div>
+    <div class="fs-body">
+        <p *ngIf="dialogData.title !== 'Edit Blueprint'">Create blueprint form goes here</p>
+        <p *ngIf="dialogData.title == 'Edit Blueprint'">Edit <strong>{{dialogData.data.name}}</strong></p>
+        <code>
+            {{dialogData.data | json}}
+        </code>
+    </div>
+    
+</div>

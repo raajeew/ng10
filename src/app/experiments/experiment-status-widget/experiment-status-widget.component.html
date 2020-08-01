@@ -1,0 +1,86 @@
+<!-- new -->
+<ul class="statusWidget" [ngClass]="data.status.toLowerCase()" *ngIf="data.status.toLowerCase() == 'new'">
+    <li class="status-wrap" [ngClass]="'status-'+data.status.toLowerCase()" [ngStyle]="{'background-size': data.statusPercentange+'%' }">
+        <p style="padding-left: 10px;">Run Now</p>                                    
+    </li>
+    <li class="actions">
+        <a class="actionIcons play" matTooltipClass="toolTipClass" matTooltip="Run" (click)="runNowEvent()"></a>
+    </li>
+</ul>
+<!-- completed -->
+<ul class="statusWidget" [ngClass]="data.status.toLowerCase()" *ngIf="data.status.toLowerCase() == 'completed'">
+    <li class="status-wrap" [ngClass]="'status-'+data.status.toLowerCase()" [ngStyle]="{'background-size': data.statusPercentange+'%' }">
+        <p style="padding-left: 10px;">
+            <span class="actionIcons greenTick"></span>
+            <span style="padding-left: 10px;">{{data.status}}</span>
+        </p>                                    
+    </li>
+    <li class="actions">
+        <a class="actionIcons replay" matTooltipClass="toolTipClass" matTooltip="Re-run" (click)="reRunEvent()"></a>
+    </li>
+</ul>
+<!-- auto completed -->
+<ul class="statusWidget" [ngClass]="data.status.toLowerCase()" *ngIf="data.status.toLowerCase() == 'auto completed'">
+    <li class="status-wrap" [ngClass]="'status-'+data.status.toLowerCase()" [ngStyle]="{'background-size': data.statusPercentange+'%' }">
+        <p style="padding-left: 10px;">
+            <span class="actionIcons greenTick"></span>
+            <span style="padding-left: 10px;">{{data.status}} by {{data.trials}} trials</span>
+        </p>                                    
+    </li>
+    <li class="actions">
+        <a class="actionIcons play" matTooltipClass="toolTipClass" matTooltip="Run" (click)="runNowEvent()"></a>
+        <a class="actionIcons replay" matTooltipClass="toolTipClass" matTooltip="Re-run" (click)="reRunEvent()"></a>
+    </li>
+</ul>
+<!-- running -->
+<ul class="statusWidget" [ngClass]="data.status.toLowerCase()" *ngIf="data.status.toLowerCase() == 'running'">
+    <li class="status-wrap" [ngClass]="'status-'+data.status.toLowerCase()" [ngStyle]="{'background-size': data.statusPercentange+'%' }">
+        <p style="padding-left: 10px;">
+            <span class="left">{{data.statusPercentange}}%</span>
+            <span class="mid">{{data.status}}</span>
+            <span class="right">{{'2:20:34 elapsed'}}</span>
+        </p>
+        <div>
+            <mat-progress-bar mode="determinate" value="{{data.statusPercentange}}"></mat-progress-bar>
+        </div>
+    </li>
+    <li class="actions">
+        <a class="actionIcons pause" matTooltipClass="toolTipClass" matTooltip="Pause" (click)="pauseEvent()"></a>
+        <a class="actionIcons stop" matTooltipClass="toolTipClass" matTooltip="Terminate" (click)="terminateEvent()"></a>
+    </li>
+</ul>
+<!-- paused -->
+<ul class="statusWidget" [ngClass]="data.status.toLowerCase()" *ngIf="data.status.toLowerCase() == 'paused'">
+    <li class="status-wrap" [ngClass]="'status-'+data.status.toLowerCase()" [ngStyle]="{'background-size': data.statusPercentange+'%' }">
+        <p style="padding-left: 10px; width: 100%;">
+            <span class="left">{{data.statusPercentange}}%</span>
+            <span class="mid">{{data.status}}</span>
+            <span class="right">{{'2:20:34 elapsed'}}</span>
+        </p>
+        <div>
+            <mat-progress-bar mode="determinate" value="{{data.statusPercentange}}"></mat-progress-bar>
+        </div>
+    </li>
+    <li class="actions">
+        <a class="actionIcons pause" matTooltipClass="toolTipClass" matTooltip="Pause" (click)="pauseEvent()"></a>
+        <a class="actionIcons stop" matTooltipClass="toolTipClass" matTooltip="Terminate" (click)="terminateEvent()"></a>
+        <a class="actionIcons replay" matTooltipClass="toolTipClass"  matTooltip="Re-run" (click)="reRunEvent()"></a>
+    </li>
+</ul>
+<!-- terminated -->
+<ul class="statusWidget" [ngClass]="data.status.toLowerCase()" *ngIf="data.status.toLowerCase() == 'terminated'">
+    <li class="status-wrap" [ngClass]="data.status.toLowerCase()" [ngStyle]="{'background-size': data.statusPercentange+'%  100%' }">
+        <p style="padding-left: 10px; width: 100%;">
+            <span class="left">{{data.statusPercentange}}%</span>
+            <span class="mid">{{data.status}}</span>
+            <span class="right">{{'2:20:34 elapsed'}}</span>
+        </p>
+        <div>
+            <mat-progress-bar mode="determinate" value="{{data.statusPercentange}}"></mat-progress-bar>
+        </div>
+    </li>
+    <li class="actions">
+        <a class="actionIcons play" matTooltipClass="toolTipClass" matTooltip="Run" (click)="runNowEvent()"></a>
+        <a class="actionIcons replay" matTooltipClass="toolTipClass" matTooltip="Re-run" (click)="reRunEvent()"></a>                                    
+    </li>
+</ul>

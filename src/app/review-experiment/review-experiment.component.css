@@ -1,0 +1,55 @@
+.snapshot-view ul{
+    list-style: none;
+    margin: 0 0 5px 0;
+    padding: 0;
+    display: flex;
+}
+.snapshot-view ul li{
+    padding: 10px;
+    font-size: 14px;
+    width: 15%;
+}
+.snapshot-view ul li label{display: block; font-weight: bold; color: #414141;}
+.snapshot-view ul li span{display: block; font-size: 30px; margin-top: 7px; color: #414141;}
+.chart-wrap{background-color: #ffffff; border-radius: 10px; box-sizing: border-box;}
+.chart-view{min-height: 400px; display: flex;}
+.chart-details-wrap{position: relative; margin-top: 0px; border-top: 1px solid #cccccc; box-sizing: border-box; padding: 40px 30px 20px;}
+.chart-view .chart-cola{width: 80%;}
+.chart-view .chart-colb{width: 20%; box-sizing: border-box; padding-left: 30px;}
+#metric-option{list-style: none; margin: 0; padding: 0; font-size: 13px;}
+#metric-option p{margin: 0; padding: 25px 0 0; font-weight: bold; font-size: 12px;}
+#metric-option select{padding: 3px;}
+.trial-details{margin: 0; padding: 0; list-style: none; display: flex; flex-flow: wrap; width: 100%;}
+.trial-details > li{width: 50%; margin-bottom: 40px;}
+.trial-details > li > ul > li > div.items{padding: 0 50px 0 0;}
+.trial-details > li > ul > li:last-child > div.items{padding: 0 0 0 0;}
+.trial-details > li > h5{margin:0 0 15px;}
+.trial-details > li.metric ul{margin: 0; padding: 0 0 0 25px; list-style: none; display: flex; flex-flow: wrap;}
+.trial-details > li.metric ul > li{box-sizing: border-box;}
+
+.trial-details > li.parameter ul{margin: 0; padding: 0 0 0 25px; list-style: none;display: flex; flex-flow: wrap;}
+.trial-details > li.parameter ul > li{box-sizing: border-box;}
+
+#closePanel{display: inline-block; position: absolute; right: 20px; top: 20px; cursor: pointer;}
+.trend{font-size: 14px; margin: 0; padding: 0; color: #00ad17;}
+.number{font-size: 30px; margin: 0; padding: 0;  color: #414141;}
+.number > em{font-size: 14px; font-style: normal; color: #414141;}
+
+
+.chart-container {
+    min-height: 400px;
+  }
+
+.chart-sidenav-content {
+
+}
+  
+.chart-sidenav {
+    padding: 20px;
+}
+#chart-config{padding-left: 10px; padding-top: 10px;}
+#parallel-cooridnate{padding: 20px;}
+.filter-wrap{position: absolute; font-size: 18px; top: 10%; right: 0px; background-color: #3289FF; cursor: pointer; color: #ffffff; border-radius: 5px 0 0 5px;}
+.dot {
+    stroke: #000;
+  }

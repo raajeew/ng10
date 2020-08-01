@@ -1,0 +1,19 @@
+.dialog-header{
+    background-color: #020F1D;
+    height: 50px;
+    color: #fff;
+    display: flex; align-items: center;    
+}
+.dialog-header h1{margin: 0; padding:0 0 0 20px; font-weight: 500; font-size: 22px; width: 50%;}
+.dialog-header .actions{
+    text-align: right;
+    width: 50%;
+    box-sizing: border-box;
+    padding-right: 20px;
+}
+.fs-body{
+    padding:20px;
+    box-sizing: border-box;
+    width: 900px;
+    margin:auto;
+}

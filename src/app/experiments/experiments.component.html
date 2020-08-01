@@ -1,0 +1,278 @@
+<div id="topBar">
+    <div class="top-row-wrap">
+        <div class="page-title-wrap">
+            <h2 class="title">Experiments</h2>
+        </div>    
+        <div class="snapshot-view-wrap">
+            <ul class="snapshot-view">
+                <li (click)="filterExperiement(snapshot.id)" [ngClass]="snapshot.id == activeFilter ? 'active':''" *ngFor="let snapshot of snapshotFilter; trackBy: trackByFn">
+                    <label>{{snapshot.label}}</label>
+                    <span>({{snapshot.value}})</span>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="top-action-column">                
+            <a class="btn-create" (click)="createExperiment()">
+                <em>&nbsp;</em>
+                <span>Create Experiment</span>
+            </a>
+        </div>
+    </div>
+    <div class="filter-wrap">
+        <span class="search-field">
+            <span matPrefix>
+                <span style="font-size: 21px !important;" class="material-icons"> search </span>
+            </span>
+            <input type="text" autocomplete="off" matInput placeholder="Search Experiment">
+        </span>
+        <div class="calendar">
+            <input id="calendarinput" placeholder="Select date" type="text" readonly="true" matInput ngxDaterangepickerMd
+            [locale]="{applyLabel: 'Apply',clearLabel: 'Cancel', format: 'DD/MM/YYYY', separator: ' to '}"
+            startKey="start"
+            endKey="end"
+            [showCustomRangeLabel]="true"
+            [alwaysShowCalendars]="false"
+            [(ngModel)]="selectedDate"
+            [ranges]="ranges"
+            [showCancel]="true"
+            [showRangeLabelOnInput]="true"
+            name="daterange"
+            (change)="onDateRangeChanged($event)"/>
+        </div>
+        <span style="margin-left: 20px;margin-top: 3px; font-size: 12px;">
+            <mat-slide-toggle (change)="toggleRefresh()" [(ngModel)]="autoRefresh">Auto Refresh</mat-slide-toggle>
+        </span>
+    </div>    
+</div>
+
+<mat-sidenav-container style="position: static;">
+    <mat-sidenav-content>
+        <!-- Data grid starts here -->
+        <div class="blueprints-wrap" *ngIf="!nodata">
+            <div class="table-wrap">
+                <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z2">
+                    <ng-container matColumnDef="cursor">
+                        <th mat-header-cell *matHeaderCellDef width="30"></th>
+                        <td mat-cell *matCellDef="let element">
+                            <span *ngIf="expandedElement !== element" class="cursor material-icons">
+                                keyboard_arrow_right
+                            </span>
+                            <span *ngIf="expandedElement === element" class="cursor material-icons">
+                                keyboard_arrow_down
+                            </span>
+                        </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="expName">
+                        <th mat-header-cell *matHeaderCellDef> Experiment Name </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            <a  (click)="showExperimentDetails(element, $event)" class="exp-title link">{{element.expName}}</a> <br>
+                            <span>{{element.completionTime}}</span>
+                        </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="clusterName">
+                        <th mat-header-cell *matHeaderCellDef width="200"> Cluster Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.clusterName}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="trials">
+                        <th mat-header-cell *matHeaderCellDef width="120"> Trials </th>
+                        <td mat-cell *matCellDef="let element">
+                            <span style="letter-spacing: 1px;">
+                                <strong>{{element.trials}}</strong>
+                                <span *ngIf="element.trials < element.maxTrials">/{{element.maxTrials}}</span>
+                            </span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef width="500"> Status </th>
+                        <td mat-cell *matCellDef="let element">
+                            <experiment-status-widget 
+                                [data]="element" 
+                                (runNow)="updateStatusEvent('run',element)"
+                                (reRun)="updateStatusEvent('rerun',element)"
+                                (pause)="updateStatusEvent('pause',element)"
+                                (terminate)="updateStatusEvent('terminate',element)">
+                            </experiment-status-widget>
+                        </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="creationDate">
+                        <th mat-header-cell *matHeaderCellDef width="150"> Date Created On </th>
+                        <td mat-cell *matCellDef="let element"> {{element.creationDate | date:'MMM d, y'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="lastRunDate">
+                        <th mat-header-cell *matHeaderCellDef width="150"> Last Run Date </th>
+                        <td mat-cell *matCellDef="let element">
+                            <span *ngIf="element.lastRunDate">{{element.lastRunDate | date:'MMM d, y'}}</span>
+                            <span *ngIf="!element.lastRunDate">&mdash;&mdash;</span>
+                        </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef width="50"> Actions </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div style="text-align: right;">
+                                <a matTooltipClass="toolTipClass" matTooltip="Actions" [matMenuTriggerFor]="menu" style="cursor: pointer;" (click)="stopEventPropagation($event)">
+                                    <i class="material-icons" style="font-size: 16px;">more_vert</i>
+                                </a>                    
+                                <mat-menu #menu="matMenu">
+                                    <button mat-menu-item (click)="reviewExperiment(element.id, $event)">View Results</button>
+                                    <button mat-menu-item>Download</button>
+                                    <button mat-menu-item>Share</button>
+                                    <button mat-menu-item>Re-run</button>
+                                    <mat-divider></mat-divider>
+                                    <button mat-menu-item style="color: #CC0000;" (click)="openDeleteDialog(element)">Delete</button>
+                                </mat-menu>
+                            </div>
+                        </td>
+                    </ng-container>
+        
+                    <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+                    <ng-container matColumnDef="expandedDetail">
+                        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+                        <div class="accordion-table-row-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">                    
+                            <div class="accordion-table-row-description">
+                            {{element.description}}
+                            </div>
+                        </div>
+                        </td>
+                    </ng-container>
+        
+                    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+                    <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"></tr>                  
+                </table>
+            </div>
+        </div>
+        <!-- Data grid ends here -->
+    </mat-sidenav-content>
+    <mat-sidenav [ngClass]="'default'" #sidenav [mode]="slideMode" [disableClose]="true" position="end" [fixedInViewport]="true"
+        [fixedTopGap]="0" [fixedBottomGap]="0" (closed)="sidenavClosed()" style="width: 65%;">
+        <div class="side-details-wrap">
+            <div class="panel-header" style="position: relative; height: 40px;">
+                <a class="link" (click)="closePanel()">
+                    <i style="color: #555555;" class="material-icons">clear</i>
+                </a>
+            </div>
+            
+            <div class="selectedItem-details" *ngIf="selectedExperiment.summary">
+                <!-- {{selectedExperiment | json}} -->
+                <ul class="summary-a">
+                    <li class="title">
+                        <h2>{{selectedExperiment.summary.expName}}</h2>
+                        <p>{{selectedExperiment.summary.description}}</p>
+                    </li>
+                    <li class="action">                        
+                        <a>Re-run</a>
+                        <a (click)="editExperiment(selectedExperiment.summary)">Edit</a>
+                        <a>Delete</a>
+                    </li>
+                </ul>
+
+                <ul class="summary-b">
+                    <li>
+                        <label>Cluster Name</label>
+                        <span>
+                            {{selectedExperiment.summary.clusterName}}
+                        </span>
+                    </li>
+                    <li>
+                        <label>Created On</label>
+                        <span>
+                            {{selectedExperiment.summary.creationDate | date:'d, MMM, y'}}
+                        </span>
+                    </li>
+                    <li>
+                        <label>Last Updated On</label>
+                        <span>
+                            {{selectedExperiment.summary.lastUpdateDate | date:'d MMM, y'}}
+                        </span>
+                    </li>
+                </ul>
+
+                <div style="margin-top: 50px; text-align: center;">
+                    
+                </div>
+            </div>
+
+            <div class="experiment-history">
+                
+                <!-- <code>
+                    {{ selectedExperiment.history | json}}
+                </code> -->
+                <table mat-table [dataSource]="selectedExperiment.history" class="mat-elevation-z2">
+                    <!-- Generated Date Column -->
+                    <ng-container matColumnDef="generatedDate">
+                      <th mat-header-cell *matHeaderCellDef> Last Run Date </th>
+                      <td mat-cell *matCellDef="let element">
+                          <span *ngIf="element.creationDate">{{element.lastRunDate | date:'MMM d, y'}}</span>
+                      </td>
+                    </ng-container>
+                    <!-- Generated Status Column -->
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef> Status </th>
+                        <td mat-cell *matCellDef="let element; let i = index;"> 
+                            <div *ngIf="i == 0">
+                                <experiment-status-widget 
+                                    [data]="element" 
+                                    (runNow)="updateStatusEvent('run',element)"
+                                    (reRun)="updateStatusEvent('rerun',element)"
+                                    (pause)="updateStatusEvent('pause',element)"
+                                    (terminate)="updateStatusEvent('terminate',element)">
+                                </experiment-status-widget>
+                            </div>
+                            <div *ngIf="i > 0">
+                                {{element.status}}
+                            </div>
+                        </td>
+                    </ng-container>
+                    <!-- Actions -->
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="exepriment-history-actions">
+                                <a class="link">View</a>&nbsp;
+                                <a class="link">Share</a>&nbsp;
+                                <a class="link">Download</a>
+                            </div>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="experimentHistoryColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: experimentHistoryColumns;"></tr>
+                </table>
+            </div>
+        </div>
+    </mat-sidenav>
+  </mat-sidenav-container>
+
+
+
+
+
+<!-- No data placeholder -->
+<div id="no-data" *ngIf="nodata">
+    <div>
+        <img src="../../assets/icons/ph-nodata.svg" />
+    </div>
+    <div style="padding: 30px 0; width: 60%; margin: auto;">
+        <p>You have not created any Blueprints yet, Start creating Blueprints by defining the parameter, metrics to build experiments</p>
+    </div>
+    <div>
+        <a class="btn-create" style="width: 140px; margin: auto; text-align: center;">
+            <!-- <em>&nbsp;</em> -->
+            <span>Create Experiment</span>
+        </a>
+    </div>
+</div>
+<!-- No data placeholder ends -->
+
+<mat-spinner diameter='50' *ngIf="showLoading" class="loadingGif"></mat-spinner>
+<delete-dialog *ngIf="deleteDialog" 
+    [data]="deleteDialogData" 
+    (retrunValue)="getDeleteDialogValue($event)" 
+    (close)="closeDeleteDialog()">
+</delete-dialog>

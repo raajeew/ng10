@@ -1,0 +1,18 @@
+{
+  "/api": {
+    "target": "http://10.150.2.96:35000/api",
+    "secure": false,
+    "pathRewrite": {
+      "^/api": ""
+    },
+    "changeOrigin": false
+  },
+  "/mockapi": { 
+    "target": "http://localhost:4040/mockapi",  
+    "secure": false,
+    "pathRewrite": {
+      "^/mockapi": ""
+    },
+    "changeOrigin": true
+  }
+}

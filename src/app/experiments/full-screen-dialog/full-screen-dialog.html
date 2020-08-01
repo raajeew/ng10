@@ -1,0 +1,16 @@
+<div class="fs-dialog-wrap">
+    <div class="dialog-header">
+        <h1>{{dialogData.title}}</h1>
+        <div class="actions">
+            <a mat-dialog-close (click)="close()">Close</a>
+        </div>
+    </div>
+    <div class="fs-body">
+        <ng-template 
+        *ngIf="lazyCom" 
+        [ngComponentOutlet] = "lazyCom | async" 
+        [ngComponentOutletInjector] = "lazyInjector">
+      </ng-template>
+    </div>
+    
+</div>

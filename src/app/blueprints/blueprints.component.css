@@ -1,0 +1,6 @@
+.blueprints-wrap{box-sizing: border-box;}
+.blueprints{margin: 0; padding: 0; list-style: none;}
+.filter-wrap{margin: 0 0 30px; display: flex;}
+.filter-wrap > div{padding-right: 20px;}
+.element-chip{display: inline-block; border: 1px solid #999999; padding:4px 8px; border-radius: 6px; margin-right: 5px; font-size: 13px;}
+::ng-deep .mat-dialog-container{border-radius: 0 !important; padding:0 !important;}
