@@ -5,7 +5,7 @@ Node version : v12+
 
 ## Local setup
 Checkout the code 
-1. `cd rehearsal-ui`
+1. `cd ng10`
 2. `npm install`
 3. `npm start`
 4. Development Server will be running on localhost:4200, open your browser on http://localhost:4200/
